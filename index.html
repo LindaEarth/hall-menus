@@ -337,7 +337,7 @@ function dishList(items){
 }
 function visibleRows(){
   return ROWS.filter(r=>{
-    if(filter==="all") return true;
+    if(filter==="all"||r.k==="sides") return true;
     if(filter==="vegan") return r.k==="vegan";
     if(filter==="veg") return r.k==="vegan"||r.k==="veg";
     if(filter==="meat") return r.k==="meat";
