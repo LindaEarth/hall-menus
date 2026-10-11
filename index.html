@@ -1,0 +1,390 @@
+<title>Hall Menus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one comparison grid — dish type down the side, colleges across the top — with a day stepper above it. Stacks per row on phones. */
+:root{
+  --bg:#f5f6f3; --surface:#ffffff; --ink:#1c2621; --muted:#5d6a63; --line:#dde2dc;
+  --accent:#1f4d3a; --accent-soft:#e3ece6;
+  --vegan:#2f7a45; --vegan-bg:#cfe6d5;
+  --veg:#9a6a12;   --veg-bg:#efdcb2;
+  --meat:#9b3b3b;  --meat-bg:#ecc9c5;
+  --note:#6b5a1f;  --note-bg:#f7f1db;
+  --label-bg:#f0f3ef; --sides-bg:#d3d9d5;
+  --font-display:"Young Serif", Georgia, "Times New Roman", serif;
+  --font-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121815; --surface:#1a221e; --ink:#e6ebe7; --muted:#9aa8a0; --line:#2c3732;
+    --accent:#8fc7a8; --accent-soft:#213029;
+    --vegan:#8fd3a2; --vegan-bg:#2b4a34; --veg:#e2b65c; --veg-bg:#4d3d1c; --meat:#eb9a94; --meat-bg:#552e2e;
+    --note:#e0cf8a; --note-bg:#2f2a17; --label-bg:#1f2924; --sides-bg:#3c4741; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121815; --surface:#1a221e; --ink:#e6ebe7; --muted:#9aa8a0; --line:#2c3732;
+  --accent:#8fc7a8; --accent-soft:#213029;
+  --vegan:#8fd3a2; --vegan-bg:#2b4a34; --veg:#e2b65c; --veg-bg:#4d3d1c; --meat:#eb9a94; --meat-bg:#552e2e;
+  --note:#e0cf8a; --note-bg:#2f2a17; --label-bg:#1f2924; --sides-bg:#3c4741; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 48px}
+header h1{font-family:var(--font-display);font-weight:400;font-size:clamp(1.6rem,3.2vw,2.2rem);margin:0;line-height:1.15;text-wrap:balance}
+header p{margin:.4rem 0 0;color:var(--muted);max-width:68ch}
+
+.daynav{display:flex;align-items:center;gap:10px;margin-top:20px}
+.navbtn{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.navbtn:disabled{opacity:.4;cursor:default}
+.navbtn:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
+.daylabel{font-family:var(--font-display);font-size:1.25rem;min-width:9.5em;text-align:center}
+.daylabel small{display:block;font-family:var(--font-body);font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+
+.controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin:16px 0 18px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:3px}
+.seg button{font:inherit;font-weight:600;border:0;background:transparent;color:var(--muted);padding:6px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chips .lbl{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.chip{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:4px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:128px repeat(4,minmax(0,1fr));background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.cell{padding:12px 14px;min-width:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.c0{border-left:0}
+.hd{border-top:0;background:var(--accent-soft);padding-block:14px}
+.college{font-family:var(--font-display);font-size:1.15rem;line-height:1.2}
+.college-sub{font-size:.8rem;color:var(--muted);margin-top:2px}
+.flag{display:block;margin-top:8px;font-size:.75rem;line-height:1.35;color:var(--note);background:var(--note-bg);border-radius:6px;padding:5px 8px}
+.flag a{color:inherit;font-weight:600}
+.rowlabel{background:var(--accent-soft);font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:flex-start;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;margin-top:3px;flex:none}
+.r-vegan.rowlabel{color:var(--vegan)} .r-vegan .dot{background:var(--vegan)}
+.r-veg.rowlabel{color:var(--veg)} .r-veg .dot{background:var(--veg)}
+.r-meat.rowlabel{color:var(--meat)} .r-meat .dot{background:var(--meat)}
+.r-other.rowlabel{color:var(--muted)} .r-other .dot{background:var(--line)}
+.body.r-vegan{box-shadow:inset 3px 0 0 var(--vegan-bg)}
+.body.r-veg{box-shadow:inset 3px 0 0 var(--veg-bg)}
+.body.r-meat{box-shadow:inset 3px 0 0 var(--meat-bg)}
+.body.r-other{box-shadow:inset 3px 0 0 var(--sides-bg)}
+
+ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dish-name{font-weight:400}
+.plain{font-weight:400}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:1px;background:var(--accent-soft);color:var(--accent)}
+.empty{color:var(--muted);font-size:.9rem}
+.mlabel{display:none}
+.pet{grid-column:5;display:flex;align-items:flex-start}
+.pet a,.petnote a,.msg a{font-weight:600;color:var(--accent)}
+.petnote{display:none}
+
+.legend{margin-top:16px;font-size:.85rem;color:var(--muted);max-width:80ch}
+.facts{margin-top:44px}
+.facts h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.35rem,2.6vw,1.75rem);margin:0;line-height:1.2}
+.facts-intro{margin:.4rem 0 18px;color:var(--muted);max-width:65ch}
+.fact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fact.wide{grid-column:span 2}
+.fact.full{grid-column:1 / -1}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.fact h3{font-family:var(--font-display);font-weight:400;font-size:1.12rem;line-height:1.25;margin:0;text-wrap:balance}
+.fact p{margin:0;font-size:.92rem;max-width:65ch}
+.fact .src{margin-top:auto;padding-top:4px;font-size:.78rem;color:var(--muted)}
+.bars{display:grid;gap:7px;margin-top:4px}
+.bar{display:grid;grid-template-columns:64px minmax(0,1fr) 44px;align-items:center;gap:10px;font-size:.85rem}
+.bt{height:14px;background:var(--accent-soft);border-radius:3px;overflow:hidden}
+.bf{display:block;height:100%;min-width:3px;border-radius:3px}
+.meatc{background:var(--meat)} .vegc{background:var(--veg)} .veganc{background:var(--vegan)}
+.bv{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.bar-axis{font-size:.75rem;color:var(--muted);text-align:right}
+@media (max-width:820px){ .fact-grid{grid-template-columns:1fr} .fact.wide,.fact.full{grid-column:auto} }
+.sources{margin-top:22px;font-size:.85rem;color:var(--muted)}
+.sources a{color:var(--accent)}
+.sources ul{margin:.4rem 0 0;padding-left:1.1rem}
+
+@media (max-width:820px){
+  .grid{grid-template-columns:1fr}
+  .hd,.pet{display:none}
+  .cell{border-left:0}
+  .body{border-top:1px dashed var(--line)}
+  .rowlabel{background:var(--accent-soft);padding-block:9px}
+  .mlabel{display:block;font-family:var(--font-display);font-size:.95rem;margin-bottom:6px}
+  .mflag{display:block;font-size:.72rem;color:var(--note);margin:-2px 0 6px}
+  .petnote{display:block;margin:0 0 12px;font-size:.9rem;color:var(--muted)}
+}
+@media (min-width:821px){ .mflag{display:none} }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Hall menus</h1>  </header>
+
+  <div class="daynav">
+    <button class="navbtn" id="prev" type="button" aria-label="Previous day">&larr; Prev</button>
+    <div class="daylabel" id="daylabel" aria-live="polite"></div>
+    <button class="navbtn" id="next" type="button" aria-label="Next day">Next &rarr;</button>
+  </div>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Meal">
+      <button id="btn-lunch" type="button" aria-pressed="true" data-meal="lunch">Lunch</button>
+      <button id="btn-dinner" type="button" aria-pressed="false" data-meal="dinner">Dinner</button>
+    </div>
+    <div class="chips" role="group" aria-label="Diet filter">
+      <span class="lbl">Show</span>
+      <button class="chip" id="f-all" type="button" aria-pressed="true" data-f="all">Everything</button>
+      <button class="chip" id="f-vegan" type="button" aria-pressed="false" data-f="vegan">Vegan</button>
+      <button class="chip" id="f-veg" type="button" aria-pressed="false" data-f="veg">Vegetarian &amp; vegan</button>
+      <button class="chip" id="f-meat" type="button" aria-pressed="false" data-f="meat">Meat &amp; fish</button>
+    </div>
+  </div>
+
+  <p class="petnote">Peterhouse: Not loaded. <a href="https://petmenu.co.uk/" target="_blank" rel="noopener">Check PETMENU</a></p>
+  <div class="grid" id="grid"></div>
+
+  <p class="legend">When it isn't clear whether a dish is vegan, it's grouped under Vegetarian. Pembroke and St Catharine's don't label their dishes. Pembroke serves a vegan option at each meal, so its most likely one is listed under Vegan; at St Catharine's only dishes whose name says vegan or plant-based are.</p>
+
+  <section class="facts" aria-labelledby="facts-h">
+    <h2 id="facts-h">What's behind the menu</h2>
+    <p class="facts-intro">A few findings from recent research on how what we eat affects the climate, animals and our health.</p>
+    <div class="fact-grid">
+      <article class="fact wide">
+        <span class="eyebrow">Climate</span>
+        <h3>Beef emits about 30 times more than tofu, per kilo</h3>
+        <p>Average greenhouse gas emissions per kilogram of food, across 38,700 farms in 119 countries.</p>
+        <div class="bars" role="img" aria-label="Kilograms of CO2 equivalent per kilogram of food: beef 99.5, lamb 39.7, cheese 23.9, chicken 9.9, tofu 3.2, peas 1.0">
+          <div class="bar"><span class="bl">Beef</span><span class="bt"><span class="bf meatc" style="width:100%"></span></span><span class="bv">99.5</span></div>
+          <div class="bar"><span class="bl">Lamb</span><span class="bt"><span class="bf meatc" style="width:39.9%"></span></span><span class="bv">39.7</span></div>
+          <div class="bar"><span class="bl">Cheese</span><span class="bt"><span class="bf vegc" style="width:24%"></span></span><span class="bv">23.9</span></div>
+          <div class="bar"><span class="bl">Chicken</span><span class="bt"><span class="bf meatc" style="width:9.9%"></span></span><span class="bv">9.9</span></div>
+          <div class="bar"><span class="bl">Tofu</span><span class="bt"><span class="bf veganc" style="width:3.2%"></span></span><span class="bv">3.2</span></div>
+          <div class="bar"><span class="bl">Peas</span><span class="bt"><span class="bf veganc" style="width:1%"></span></span><span class="bv">1.0</span></div>
+          <div class="bar-axis">kg CO₂e per kg of food</div>
+        </div>
+        <a class="src" href="https://ourworldindata.org/grapher/ghg-per-kg-poore" target="_blank" rel="noopener">Poore &amp; Nemecek, Science, 2018, via Our World in Data</a>
+      </article>
+      <article class="fact">
+        <span class="eyebrow">Climate</span>
+        <h3>A vegan diet has about a quarter of the footprint</h3>
+        <p>In a study of 55,504 people in the UK, vegan diets caused about 25% of the greenhouse gas emissions and land use of high meat-eaters' diets (100 g or more of meat a day), and less than half the water use.</p>
+        <a class="src" href="https://ora.ox.ac.uk/objects/uuid:332d8ffb-75cf-4f59-bded-bc2042de955d" target="_blank" rel="noopener">Scarborough et al., Nature Food, 2023</a>
+      </article>
+      <article class="fact">
+        <span class="eyebrow">Animal welfare</span>
+        <h3>About 1 in 5 dairy cows is lame</h3>
+        <p>A 2023 review of 53 studies covering about 415,000 cows found that on average 22.8% of dairy cows were lame. Studies of UK herds found between 17% and 37%. Milk and cheese come from these herds.</p>
+        <a class="src" href="https://pure.au.dk/ws/files/338610518/1-s2.0-S1090023323000266-main.pdf" target="_blank" rel="noopener">Thomsen et al., The Veterinary Journal, 2023</a>
+      </article>
+      <article class="fact">
+        <span class="eyebrow">Health</span>
+        <h3>Processed meat increases the risk of bowel cancer</h3>
+        <p>The WHO's cancer agency classes processed meat, such as bacon, ham and sausages, as carcinogenic, because there is sufficient evidence that it increases the risk of bowel (colorectal) cancer. Eating 50 g a day, about one sausage or two rashers of bacon, increases the risk by about 18%. Red meat is classed as probably carcinogenic.</p>
+        <a class="src" href="https://www.iarc.who.int/wp-content/uploads/2018/11/Monographs-QA_Vol114.pdf" target="_blank" rel="noopener">IARC Monographs Q&amp;A, Volume 114</a>
+      </article>
+      <article class="fact">
+        <span class="eyebrow">Eating plant-based well</span>
+        <h3>Plan for a few nutrients</h3>
+        <p>The NHS says a varied vegan diet can give you everything you need. Plan for vitamin B12 (fortified foods or a supplement), plus iodine, calcium, iron and omega-3.</p>
+        <a class="src" href="https://www.nhs.uk/live-well/eat-well/how-to-eat-a-balanced-diet/the-vegan-diet/" target="_blank" rel="noopener">NHS</a>
+      </article>
+    </div>
+  </section>
+
+  <div class="sources">
+    Sources
+    <ul>
+      <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_1_js_2.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 1 (PDF)</a></li>
+      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu, w/c 5 October</a></li>
+      <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-2-lunch-menus-2026-16.pdf" target="_blank" rel="noopener">St Catharine's Week 2 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-2-dinner-menus-2026-17.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-2-menus-26-1.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
+      <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+/* WEEK_START: the Monday of the week this page shows (YYYY-MM-DD). Only this week is kept. */
+const WEEK_START="2026-10-05";
+const DAYS=(()=>{const [y,m,d]=WEEK_START.split("-").map(Number);const out=[];
+  for(let k=0;k<7;k++){const t=new Date(Date.UTC(y,m-1,d+k));
+    out.push(t.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).replace(",",""));}
+  return out;})();
+function todayIndex(){
+  const [y,m,d]=WEEK_START.split("-").map(Number);
+  const now=new Date(); const today=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+  const k=Math.round((today-Date.UTC(y,m-1,d))/86400000);
+  return k>=0&&k<7?k:0;
+}
+const COLLEGES=[
+  {id:"pem",name:"Pembroke",sub:"Servery · Week 1"},
+  {id:"qns",name:"Queens'",sub:"Dining Hall"},
+  {id:"cat",name:"St Catharine's",sub:"Cafeteria · Week 2"},
+  {id:"pet",name:"Peterhouse",sub:"Hall"}
+];
+const ROWS=[
+  {k:"vegan",label:"Vegan",cls:"r-vegan"},
+  {k:"veg",label:"Vegetarian",cls:"r-veg"},
+  {k:"meat",label:"Meat & fish",cls:"r-meat"},
+  {k:"sides",label:"Sides",cls:"r-other"}
+];
+const BRUNCH={msgHtml:"Brunch dishes aren't listed on the menu."};
+const PEM_NOTE="Lunch/dinner split read from the menu layout; sides and pudding are listed for the whole day.";
+const CAT_NOTE="Days worked out from the PDF's order; confirm in the PDF.";
+
+/* ---------- Pembroke (Week 1) ---------- */
+const PEM_SIDES=[
+ ["Chips","Roasted root veg","Grilled peppers","Dill new potatoes","Coconut brown rice"],
+ ["Chips","Roasted squash","Savoy cabbage","Basmati rice","Mash potato"],
+ ["Chips","Peas and carrots","Roasted courgette","Steamed rice","Crushed new potatoes"],
+ ["Chips","Roasted parsnip","Sautéed pak choi","Parmentier potatoes","Rice"],
+ ["Chips","Mushy peas / turmeric roasted cauliflower","Vegetable panaché","Coriander rice","New potatoes"],
+ ["Chips","Green beans","Steamed broccoli","Rice","Crispy potatoes"],
+ ["Chips","Corn on the cob","Glazed carrots","Roast potatoes","Rice"]
+];
+const PEM_PUD=["Peach crumble","Apple cake with cinnamon sauce","Orange polenta cake with cardamom cream","Banana toffee cake","Vegan carrot cake with orange sauce","Berries and plum puff pie","Double chocolate brownie"];
+const PEM_L=[
+ {vegan:["Vegetable tagine"],veg:["Potato pancakes with guacamole, salsa and refried beans"],meat:["Katsu pork"]},
+ {vegan:["Bean chili with nachos"],veg:["Blue cheese and courgette frittata"],meat:["Beef bolognese with penne pasta"]},
+ {vegan:["Sweet potato, spinach and butter bean stew","Tempeh goujons with charred broccoli"],meat:["Crispy chicken burger with slaw"]},
+ {vegan:["Battered cauliflower with sweet chili sauce"],meat:["Brisket bagel with caramelised onions","Steak and hoisin sauce"]},
+ {vegan:["Lentil curry"],veg:["Mac and cheese"],meat:["Gluten-free battered fish"]},
+ null,null
+];
+const PEM_D=[
+ {vegan:["Falafel with warm quinoa salad and coconut yoghurt"],veg:["Mozzarella and sun-dried tomato stuffed mushroom"],meat:["Lemon and garlic chicken legs"]},
+ {vegan:["Wild rice and corn sauce stuffed tomato"],veg:["Broccoli, leek, pea and goat's cheese crumble","Onion and cheddar quiche"]},
+ {vegan:["Stir-fry with rice noodles"],veg:["Flatbread with grilled halloumi and Mediterranean vegetables"],meat:["Creamy fish chowder"]},
+ {vegan:["Vegetable fritters with salsa"],veg:["Peri-peri halloumi fries with crunchy salad"],meat:["Chicken quesadilla"]},
+ {vegan:["Teriyaki tofu, spring onion and nori rice bowl"],veg:["Spinach and feta pie"],meat:["Honey glazed chicken wings"]},
+ {vegan:["Lentil loaf with tomato sauce"],veg:["Mushroom stroganoff"],meat:["Chicken with bacon and tarragon sauce"]},
+ {vegan:["Celeriac steak with chimichurri"],veg:["Tomato and mozzarella pizza"],meat:["BBQ ribs"]}
+];
+function pem(meal,i){
+  const src=(meal==="lunch"?PEM_L:PEM_D)[i];
+  if(!src) return BRUNCH;
+  const vg=src.vegan||[];
+  return {vegan:vg.slice(0,1),veg:[...(src.veg||[]),...vg.slice(1)],meat:src.meat||[],sides:[{list:PEM_SIDES[i]}],extra:[],dessert:[PEM_PUD[i]]};
+}
+
+/* ---------- Queens' ---------- */
+const S="Soup of the day";
+const QNS={
+ lunch:[
+  {vegan:["Lentil & red pepper loaf with onion gravy"],veg:["Mushroom bolognaise with spaghetti"],meat:["Beef bolognaise with spaghetti"],sides:[{list:["Cheesy ciabatta garlic bread","Green beans & peas"]}],extra:[S],dessert:["Chocolate brownie with chocolate custard"]},
+  {vegan:["Grilled flat mushroom topped with ratatouille & vegan Applewood cheese"],veg:["Creamy spinach & butterbean pasta bake"],meat:["Salmon pasta bake"],sides:[{list:["New potatoes","Broccoli & green beans"]}],extra:[S],dessert:["Warm cinnamon buns"]},
+  {vegan:["Spinach, mushroom & lentil gluten-free lasagne"],veg:["Butternut & pumpkin seed mac 'n' cheese"],meat:["Roast chicken with gravy & stuffing balls"],sides:[{list:["Roasted new potatoes","Cauliflower, leek & broccoli mornay"]}],extra:[S],dessert:["Warm lemon drizzle cake with citrus custard"]},
+  {vegan:["Butternut & chickpea stew with rice"],veg:["Aubergine parmigiana"],meat:["Bacon loin steak with grilled pineapple"],sides:[{list:["New potatoes","Roasted peppers, courgettes & red onion"]}],extra:[S],dessert:["Cherry Bakewell tart with custard"]},
+  {vegan:["Spicy bean & sweet potato fritter with chimichurri"],veg:["Spinach & feta spanakopita"],meat:["Battered fish","Wet fish"],sides:[{list:["Chips","Mushy peas","Lemon & tartare sauce"]}],extra:[S],dessert:["Peach cobbler with custard"]},
+  null,null
+ ],
+ dinner:[
+  {vegan:["Sweet & sour fried veg & tofu"],veg:["Wild mushroom stroganoff"],meat:[{n:"Chicken paprikas",halal:1}],sides:[{list:["Rice","Mixed veg"]}],extra:[],dessert:["Assorted dessert"]},
+  {vegan:["Roasted courgette & pumpkin seed risotto with rocket pesto"],veg:["Spinach & ricotta cannelloni"],meat:["Beef cannelloni"],sides:[{list:["Herby diced potatoes","Broccoli & cauliflower"]}],extra:[],dessert:["Assorted desserts"]},
+  {vegan:["Spiced veg, tofu & guacamole burrito"],veg:["Sweet potato chilli taco with spicy Mexican cheese, guacamole & sour cream"],meat:[{n:"Chicken & black bean burrito",halal:1}],sides:[{list:["Sweet potato fries","Chipotle grilled corn"]}],extra:[],dessert:["Assorted desserts"]},
+  {vegan:["Stir-fried veg & tofu with rice noodles"],veg:["Veg Pukka pie"],meat:["Beef Pukka pie"],sides:[{list:["Herby diced potatoes","Mixed veg"]}],extra:[],dessert:["Assorted dessert"]},
+  {vegan:["Veg samosa with lentil curry & rice"],veg:["Butternut & chickpea korma"],meat:["Chicken korma"],sides:[{list:["Rice & spiced peas","Garlic naan or poppadom with mango chutney"]}],extra:[],dessert:["Assorted desserts"]},
+  {vegan:["BBQ fried pepper & onion tacos with guacamole"],veg:["Creamy spinach & mushroom pasta bake"],meat:["Lemon & herb grilled chicken burger with coleslaw"],sides:[{list:["Roasted Mediterranean veg","New potatoes"]}],extra:[],dessert:["Assorted desserts"]},
+  {vegan:[],veg:["Spinach & mascarpone risotto"],meat:["Jumbo sausage roll with onion gravy"],sides:[{list:["Herby diced potatoes","Mixed veg"]}],extra:[],dessert:["Assorted desserts"]}
+ ]
+};
+function qns(meal,i){ return QNS[meal][i]||BRUNCH; }
+
+/* ---------- St Catharine's (Week 2) ---------- */
+/* each day: [dish, sides[], group] for counters 1–3 */
+const CAT={
+ lunch:[
+  [["Spinach and ricotta tortellini with ratatouille tomato sauce",["Broccoli","Kos salad with Caesar dressing"],"veg"],["BBQ plant-based pieces and vegetable wrap",["Roasted baby corn","Herby diced potatoes"],"vegan"],["Grilled salmon fillet with pea and mint risotto and dill oil",["Green beans in garlic oil","Steamed spinach"],"meat"]],
+  [["Vegetable lasagne with garlic bread",["Caesar salad","Mini wedges"],"veg"],["Three bean chili enchilada",["Sweetcorn","Sweet potato fries"],"veg"],["Turkey and mushroom stroganoff",["Broccoli","Rice"],"meat"]],
+  [["Cheese and onion pastry",["Steamed cauliflower","Broccoli"],"veg"],["Roasted root vegetable pie",["Sag aloo","Naan bread"],"vegan"],["Sausage, fennel and ricotta pastry",["Curly kale","Roasted new potatoes"],"meat"]],
+  [["Baked vegetables with halloumi and herb oil",["Roasted squash","Roasted new potatoes"],"veg"],["Spinach and mushroom cannelloni in tomato sauce",["Steamed carrots","Green beans"],"veg"],["Roast pork with apple sauce and gravy",["Cauliflower cheese","Roast potatoes"],"meat"]],
+  [["Creamy mushroom and spinach filo pie",["Broccoli","Butter-baked jacket halves"],"veg"],["Baked mushroom with leek and red onion stuffing",["Steamed carrots","Rosemary roasted squash"],"vegan"],["Battered fish of the day with tartar sauce and lemon",["Peas","Chips"],"meat"]]
+ ],
+ dinner:[
+  [["Gnocchi baked in tomato and red pepper sauce",["Roasted courgettes","Sweetcorn"],"veg"],["Thai green vegetable curry",["Rice","Sugar snaps and mange tout"],"vegan"],["Pan-fried breast of chicken with red onion gravy",["Sweet potato and coriander mash","Garlic green beans"],"meat"]],
+  [["Cheese and tomato quiche",["Oregano and lemon roasted new potatoes","Steamed cauliflower"],"veg"],["Teriyaki tofu with stir-fried vegetables",["Rice","Mange tout and sugar snaps"],"vegan"],["Roast fillet of salmon with tomato and olive sauce",["Crushed new potatoes","Peas"],"meat"]],
+  [["Vegetable biryani with yoghurt and poppadoms",["Sag aloo","Onion bhaji"],"veg"],["Courgette basil pasta",["Sautéed potatoes","Broccoli"],"veg"],["Butter chicken",["Rice","Curry roasted cauliflower"],"meat"]],
+  [["Spinach and ricotta tortellini with tomato sauce and parmesan",["Roasted squash with rosemary","Roasted courgettes"],"veg"],["Beetroot freekeh with spinach and dukkah-crusted tofu",["Rice","Green beans"],"vegan"],["Grilled sausages with red onion gravy",["Mash potatoes","Broccoli"],"meat"]],
+  [["Four cheeses, tomato and basil risotto cake",["Broccoli","Ratatouille"],"veg"],["Pepper stuffed with rice, butternut and courgette",["Steamed garlic green beans","Steamed spinach"],"vegan"],["Scampi with tartar sauce and lemon",["Chips","Peas"],"meat"]],
+  [["Grilled sea bass with steamed spinach and white wine sauce",["Oven-baked sauté potatoes","Green beans and peas"],"meat"],["Potato, broccoli and Stilton bake",["Herby diced potatoes","Sweetcorn"],"veg"],["Cajun vegetable wrap",["Seasoned wedges","Baby corn"],"veg"]],
+  [["Breaded turkey escalope with spiced tomato sauce",["Celeriac mash","Steamed carrots"],"meat"],["Roasted vegetable pasta bake with mozzarella",["Green beans","Rocket and parmesan salad"],"veg"],["Bulgur wheat with sweet potatoes, chilli and coriander",["Peas","Steamed cabbage"],"veg"]]
+ ]
+};
+const CAT_WKND_URL="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-2-menus-26-1.pdf";
+function cat(meal,i){
+  if(!CAT[meal][i]) return BRUNCH;
+  const out={vegan:[],veg:[],meat:[],sides:[]};
+  const seen=new Set(), sides=[];
+  CAT[meal][i].forEach(([d,s,g])=>{ if(g==="vegan"&&!/vegan|plant-based/i.test(d)) g="veg"; out[g].push(d); s.forEach(x=>{ if(!seen.has(x.toLowerCase())){seen.add(x.toLowerCase());sides.push(x);} }); });
+  out.sides=[{list:sides}];
+  return out;
+}
+
+/* ---------- rendering ---------- */
+let day=todayIndex(), meal="lunch", filter="all";
+try{
+  const m=localStorage.getItem("hm-meal"); if(m==="lunch"||m==="dinner") meal=m;
+}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function dishList(items){
+  if(!items||!items.length) return '<span class="empty">—</span>';
+  return '<ul class="dishes">'+items.map(d=>{
+    if(typeof d==="string") d={n:d};
+    if(d.list) return `<li class="plain">${d.list.map(esc).join(" · ")}</li>`;
+    return `<li><span class="dish-name${d.plain?' plain':''}">${esc(d.n)}</span>${d.halal?'<span class="tag">Halal</span>':''}</li>`;
+  }).join('')+'</ul>';
+}
+function visibleRows(){
+  return ROWS.filter(r=>{
+    if(filter==="all") return true;
+    if(filter==="vegan") return r.k==="vegan";
+    if(filter==="veg") return r.k==="vegan"||r.k==="veg";
+    if(filter==="meat") return r.k==="meat";
+  });
+}
+function render(){
+  const data={pem:pem(meal,day),qns:qns(meal,day),cat:cat(meal,day)};
+  const isWeekend=day>4;
+  const dl=document.getElementById("daylabel");
+  const parts=DAYS[day].split(" ");
+  dl.innerHTML=`<small>${meal==="lunch"&&isWeekend?"Brunch":meal==="lunch"?"Lunch":"Dinner"}</small>${parts[0]} ${parts[1]} ${parts[2].slice(0,3)}`;
+  document.getElementById("prev").disabled=day===0;
+  document.getElementById("next").disabled=day===DAYS.length-1;
+  document.getElementById("btn-lunch").textContent=isWeekend?"Brunch":"Lunch";
+
+  const rows=visibleRows();
+  let h='<div class="cell hd c0"></div>';
+  COLLEGES.forEach(c=>{
+    h+=`<div class="cell hd"><div class="college">${c.name}</div></div>`;
+  });
+  rows.forEach((r,ri)=>{
+    h+=`<div class="cell c0 rowlabel ${r.cls}"><span class="dot"></span>${r.label}</div>`;
+    COLLEGES.forEach(c=>{
+      if(c.id==="pet"){
+        if(ri===0) h+=`<div class="cell pet" style="grid-row:span ${rows.length}"><span class="empty">Not loaded. <a href="https://petmenu.co.uk/" target="_blank" rel="noopener">Check PETMENU</a></span></div>`;
+        return;
+      }
+      const d=data[c.id];
+      const content=d.msgHtml
+        ? (ri===0?`<span class="empty msg">${d.msgHtml}</span>`:'<span class="empty">—</span>')
+        : dishList(d[r.k]);
+      h+=`<div class="cell body ${r.cls}"><span class="mlabel">${c.name}</span>${content}</div>`;
+    });
+  });
+  document.getElementById("grid").innerHTML=h;
+  document.querySelectorAll("[data-meal]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.meal===meal)));
+  document.querySelectorAll("[data-f]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.f===filter)));
+  try{localStorage.setItem("hm-meal",meal);}catch(e){}
+}
+document.getElementById("prev").addEventListener("click",()=>{if(day>0){day--;render();}});
+document.getElementById("next").addEventListener("click",()=>{if(day<DAYS.length-1){day++;render();}});
+document.querySelectorAll("[data-meal]").forEach(b=>b.addEventListener("click",()=>{meal=b.dataset.meal;render();}));
+document.querySelectorAll("[data-f]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.f;render();}));
+document.addEventListener("keydown",e=>{
+  if(e.target.closest&&e.target.closest("input,textarea")) return;
+  if(e.key==="ArrowLeft"&&day>0){day--;render();}
+  if(e.key==="ArrowRight"&&day<DAYS.length-1){day++;render();}
+});
+render();
+</script>
