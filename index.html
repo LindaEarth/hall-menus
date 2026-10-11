@@ -135,9 +135,9 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
     </div>
     <div class="chips" role="group" aria-label="Diet filter">
       <span class="lbl">Show</span>
-      <button class="chip" id="f-all" type="button" aria-pressed="true" data-f="all">Everything</button>
+      <button class="chip" id="f-all" type="button" aria-pressed="false" data-f="all">Everything</button>
       <button class="chip" id="f-vegan" type="button" aria-pressed="false" data-f="vegan">Vegan</button>
-      <button class="chip" id="f-veg" type="button" aria-pressed="false" data-f="veg">Vegetarian &amp; vegan</button>
+      <button class="chip" id="f-veg" type="button" aria-pressed="true" data-f="veg">Vegetarian &amp; vegan</button>
       <button class="chip" id="f-meat" type="button" aria-pressed="false" data-f="meat">Meat &amp; fish</button>
     </div>
   </div>
@@ -322,7 +322,7 @@ function cat(meal,i){
 }
 
 /* ---------- rendering ---------- */
-let day=todayIndex(), meal="lunch", filter="all";
+let day=todayIndex(), meal="lunch", filter="veg";
 try{
   const m=localStorage.getItem("hm-meal"); if(m==="lunch"||m==="dinner") meal=m;
 }catch(e){}
