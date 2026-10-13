@@ -201,7 +201,7 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
     Sources
     <ul>
       <li><a href="https://www.pem.cam.ac.uk/college/catering/information-students/servery-menu" target="_blank" rel="noopener">Pembroke servery menu (Week 2 not yet published)</a></li>
-      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 12 October not yet up)</a></li>
+      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 12 October)</a></li>
       <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-3-lunch-menus-2026-18.pdf" target="_blank" rel="noopener">St Catharine's Week 3 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-3-dinner-menus-2026-19.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-3-menus-26-2.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
       <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
     </ul>
@@ -243,9 +243,31 @@ const PEM_MISSING={msgHtml:"This week's menu isn't published yet."};
 function pem(meal,i){ return PEM_MISSING; }
 
 /* ---------- Queens' ---------- */
-/* Weekly menu page still shows w/c 5 October. */
-const QNS_MISSING={msgHtml:"This week's menu isn't up yet."};
-function qns(meal,i){ return QNS_MISSING; }
+/* w/c 12 October. each day: {vegan,veg,meat,sides}; meat entries may be {n,halal:true}. Weekend lunch = brunch. */
+const H=n=>({n,halal:true});
+const QNS={
+ lunch:[
+  {vegan:["Root veg and bean casserole"],veg:["Butternut and goats cheese Wellington"],meat:["Steak and ale pie"],sides:["Horseradish mash potato","Broccoli, carrots and green beans"]},
+  {vegan:["Grilled aubergine topped with ratatouille and vegan smoked Applewood"],veg:["Pasta with kale pesto and feta"],meat:[H("Chicken Parmo")],sides:["New potatoes","Roasted Mediterranean veg"]},
+  {vegan:["Carrot and vegan feta fritter with tomato and lentil dressing"],veg:["Creamy mushroom and spinach pasta"],meat:["Braised blade of beef with Yorkshire pudding and gravy"],sides:["Roast potatoes","Carrots, mange tout and sugar snap peas"]},
+  {vegan:["Sweet potato and apricot tagine with rice"],veg:["Florentina crespelle"],meat:["Grilled pork rib eye steak with onion cider gravy"],sides:["Roast new potatoes","Roast aubergine, courgette and peppers"]},
+  {vegan:["Mushroom, tomato and chickpea gluten-free pasta"],veg:["Broccoli and Stilton quiche"],meat:["Battered fish","Fish of the day"],sides:["Lemon and tartare sauce","Chips","Minted peas"]}
+ ],
+ dinner:[
+  {vegan:["Wild mushroom and pumpkin seed risotto with chive pesto"],veg:["Spinach and ricotta tortellini"],meat:["Beef cannelloni"],sides:["Garlic bread","Garlic and herb baby corn and baby carrots"]},
+  {vegan:["Bhaji burger with mango chutney and rocket"],veg:["Spinach, new potato and Cheddar frittata"],meat:[H("Grilled Cajun chicken burger with red slaw")],sides:["Southern fried wedges","Grilled corn"]},
+  {vegan:["Black bean chilli and guacamole burrito"],veg:["Jackfruit and sweet potato tacos with sour cream and spicy Mexican Cheddar"],meat:[H("Southern fried boneless chicken thigh")],sides:["Sweet potato fries","Garlic green beans"]},
+  {vegan:["Caramelised red onion, beetroot and vegan smoked Applewood tarte tatin"],veg:["Mac 'n' cheese"],meat:[H("BBQ chicken wings")],sides:["Curly fries","Peas and corn"]},
+  {vegan:["Sweet and sour veg and tofu with rice noodles"],veg:["Sweet chilli veg spring roll"],meat:["Chicken chow mein"],sides:["Prawn crackers","Chilli, soy and ginger green beans, baby carrots and broccoli","Chinese salt and pepper chips"]},
+  {vegan:["Veggie overload pizza"],veg:["Roast pepper stuffed with couscous, feta and tomato chutney"],meat:["Pepperoni and hot honey pizza"],sides:["Southern fried wedges","Garlic bread"]},
+  {vegan:["Roasted butternut and vegan mac 'n' cheese"],veg:["Courgette and Parmesan risotto with sunflower seeds and herb dressing"],meat:["Garlic and thyme roasted chicken breast with gravy"],sides:["New potatoes","Mixed veg"]}
+ ]
+};
+function qns(meal,i){
+  const d=QNS[meal][i];
+  if(!d) return BRUNCH;
+  return {vegan:d.vegan,veg:d.veg,meat:d.meat,sides:[{list:d.sides}]};
+}
 
 /* ---------- St Catharine's (Week 3) ---------- */
 /* each day: [dish, sides[], group] for counters 1–3 */
