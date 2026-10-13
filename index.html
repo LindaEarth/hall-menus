@@ -200,7 +200,7 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
   <div class="sources">
     Sources
     <ul>
-      <li><a href="https://www.pem.cam.ac.uk/college/catering/information-students/servery-menu" target="_blank" rel="noopener">Pembroke servery menu (Week 2 not yet published)</a></li>
+      <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_2_du.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 2 (PDF)</a></li>
       <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 12 October)</a></li>
       <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-3-lunch-menus-2026-18.pdf" target="_blank" rel="noopener">St Catharine's Week 3 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-3-dinner-menus-2026-19.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-3-menus-26-2.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
       <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
@@ -238,9 +238,37 @@ const PEM_NOTE="Lunch/dinner split read from the menu layout; sides and pudding 
 const CAT_NOTE="Days worked out from the PDF's order; confirm in the PDF.";
 
 /* ---------- Pembroke (Week 2) ---------- */
-/* Week 2 PDF not published on the servery menu page yet. */
-const PEM_MISSING={msgHtml:"This week's menu isn't published yet."};
-function pem(meal,i){ return PEM_MISSING; }
+const PEM_SIDES=[
+ ["Chips","Green beans","Carrots","Rice","Roast sweet potato"],
+ ["Chips","Cauliflower","Steamed greens","New potatoes","Vegetable quinoa"],
+ ["Chips","Carrots","Broccoli","Mash potato","Parmentier potatoes"],
+ ["Chips","Leeks and peas","Kale","Rice","New potatoes / Bombay potatoes"],
+ ["Chips","Mushy peas / peas","Carrots","Courgettes","Roasted new potatoes"],
+ ["Chips","Corn on the cob","Fine beans","New potatoes","Sweet potato wedges"],
+ ["Chips","Herby butterbeans","Roast carrots and parsnips","Butternut squash","Roast potatoes"]
+];
+const PEM_L=[
+ {vegan:["Lentil dhal"],veg:["Roasted celeriac with crisp chickpeas and chimichurri"],meat:["Battered sausage with chip shop curry sauce"]},
+ {vegan:["Sweet potato tagine"],veg:["Roasted root veg and goat's cheese pie"],meat:["Chicken shish with garlic yoghurt, pickled cabbage and pitta"]},
+ {vegan:["Vegetable jambalaya"],veg:["Spinach and ricotta cannelloni"],meat:["Pulled pork with creamed corn and black beans"]},
+ {vegan:["Winter veg and lentil stew"],veg:["Tomato and cheddar roll"],meat:["Braised beef with wet polenta and salsa verde"]},
+ {vegan:["Butter bean stew with spinach and herb dumplings"],veg:["Vegetable and cheese burrito"],meat:["Gluten-free battered fish"]},
+ null,null
+];
+const PEM_D=[
+ {vegan:["Butterbean katsu with steamed courgette and bok choi"],veg:["Tortilla española"],meat:["Spanish-style chicken thighs with roasted peppers"]},
+ {vegan:["Spicy bean and jackfruit tostada"],veg:["Chipotle vegetable, pickled onion, guacamole and cheese quesadilla"],meat:["Pulled lamb tacos with corn salsa"]},
+ {vegan:["Crispy cauliflower with sticky orange sauce"],veg:["Spinach falafel with garlic yoghurt, pickled cabbage and pitta","Spicy tomato and chickpea shakshuka"],meat:[]},
+ {vegan:["Kale dhansak"],veg:["Vegetable bhuna"],meat:["Chicken tikka masala"]},
+ {vegan:["Jacket potato with Boston beans"],veg:["Tomato and basil pasta"],meat:["Beef lasagne"]},
+ {vegan:["Lentil shepherd's pie"],veg:["Sweet chilli stir-fry with rice noodles"],meat:["Bacon cheeseburger with slaw"]},
+ {vegan:["Loaded tater tots"],veg:["Spinach, ricotta and pine kernel pasta"],meat:["Roast lamb"]}
+];
+function pem(meal,i){
+  const src=(meal==="lunch"?PEM_L:PEM_D)[i];
+  if(!src) return BRUNCH;
+  return {vegan:src.vegan,veg:src.veg,meat:src.meat,sides:[{list:PEM_SIDES[i]}]};
+}
 
 /* ---------- Queens' ---------- */
 /* w/c 12 October. each day: {vegan,veg,meat,sides}; meat entries may be {n,halal:true}. Weekend lunch = brunch. */
