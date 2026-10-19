@@ -200,7 +200,7 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
   <div class="sources">
     Sources
     <ul>
-      <li><a href="https://www.pem.cam.ac.uk/college/catering/information-students/servery-menu" target="_blank" rel="noopener">Pembroke servery menu (Week 3 not published yet)</a></li>
+      <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_3_lc.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 3 (PDF)</a></li>
       <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 19 October not up yet)</a></li>
       <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-4-lunch-menus-2026-20.pdf" target="_blank" rel="noopener">St Catharine's Week 4 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-4-dinner-menus-2026-21.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-4-menus-26-3-1.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
       <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
@@ -238,13 +238,33 @@ const PEM_NOTE="Lunch/dinner split read from the menu layout; sides and pudding 
 const CAT_NOTE="Days worked out from the PDF's order; confirm in the PDF.";
 
 /* ---------- Pembroke (Week 3) ---------- */
-/* Week 3 PDF not published yet: shown as a message for every day. */
-const PEM_MSG={msgHtml:"This week's menu isn't published yet."};
-const PEM_SIDES=[];
-const PEM_L=[];
-const PEM_D=[];
+const PEM_SIDES=[
+ ["Chips","Mangetout","Vegetable medley","Rice","Sweet potato wedges"],
+ ["Chips","Minted peas","Green beans","Chickpea braised rice","Roasted new potatoes"],
+ ["Chips","Spiced cauliflower","Winter greens","Onion fried rice","Potato wedges"],
+ ["Chips","Seasonal root veg","Corn on the cob","Crushed sweet potato","Roasted new potatoes"],
+ ["Chips","Mushy peas / peas","Stir-fried broccoli","Crispy potato wedges","Braised onion rice"],
+ ["Chips","Green beans and cherry tomatoes","Peas","Garlic mash potato","Steamed new potatoes"],
+ ["Chips","Maple glazed carrots","Cabbage","Rice","Rosemary roast potatoes"]
+];
+const PEM_L=[
+ {vegan:["Roasted squash and chickpea casserole"],veg:["Paneer jalfrezi with poppadom"],meat:["Fish pie with Cheddar mash"]},
+ {vegan:["Vegetable casserole topped with crispy mushrooms"],veg:["Broccoli, pea and Stilton pasta crumble bake"],meat:["Roasted chicken thighs with creamy lentils and pancetta"]},
+ {vegan:["Aubergine caponata"],veg:["Spinach falafel burger with tzatziki and chilli jam"],meat:["Steamed haddock with creamed leeks and kale"]},
+ {vegan:["Moroccan vegetable tagine"],veg:["Leek, potato, Cheddar and onion puff pastry open pie"],meat:["Beef strips, mushrooms and spinach with green peppercorn sauce"]},
+ {vegan:["Wet polenta with roasted Mediterranean veg and onion chutney"],veg:["Four cheese pasta bake with parsley crumb"],meat:["Gluten-free battered fish"]},
+ null,null
+];
+const PEM_D=[
+ {vegan:["Aubergine, butterbean and charred courgette katsu curry"],veg:["Halloumi fries with chilli jam and crispy rocket"],meat:["Chicken and vegetable fried rice"]},
+ {vegan:["Vegan biryani"],veg:["BBQ pulled jackfruit with mixed bean salad and guacamole"],meat:["Chicken tikka masala with naan"]},
+ {vegan:["Roasted squash with tabbouleh-style salsa and coconut yoghurt"],veg:["Crispy chilli and miso aubergine with egg noodles"],meat:["Chicken leg with green beans, cherry tomatoes and pesto"]},
+ {vegan:["Squash and sage risotto with pumpkin seeds"],veg:["Potato pancakes with feta and guacamole","Five bean and mushroom bolognese with pasta"],meat:[]},
+ {vegan:["Jacket potato with mixed bean chilli"],veg:["Roast pepper, basil and blue cheese frittata with tomato salsa"],meat:["Butter chicken"]},
+ {vegan:["Lentil and Mediterranean veg ragu"],veg:["Gnocchi with mushrooms and leeks"],meat:["Baked coley with tomato and olive sauce"]},
+ {vegan:["Vegan chilli nachos"],veg:["Vegetable curry"],meat:["Roast pork loin with apple sauce"]}
+];
 function pem(meal,i){
-  if(!PEM_L.length&&!PEM_D.length) return PEM_MSG;
   const src=(meal==="lunch"?PEM_L:PEM_D)[i];
   if(!src) return BRUNCH;
   return {vegan:src.vegan,veg:src.veg,meat:src.meat,sides:[{list:PEM_SIDES[i]}]};
