@@ -269,20 +269,29 @@ function pem(meal,i){
 }
 
 /* ---------- Queens' ---------- */
-/* w/c 26 October. Only Monday loaded so far (other days are tabs on the page). */
+/* w/c 26 October. each day: {vegan,veg,meat,sides}; meat entries may be {n,halal:true}. Weekend lunch = brunch. */
 const H=n=>({n,halal:true});
-const QNS_PART={msgHtml:'Not loaded yet. <a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Check Queens\' menu</a>'};
 const QNS={
  lunch:[
-  {vegan:["Courgette, butterbean and vegan feta fritter with spicy tomato chutney"],veg:["Spinach, butternut and ricotta pasta bake"],meat:[H("Crispy fish cake with caper and herb dressing")],sides:["Lemon and herb boiled new potatoes","Carrots, green beans and broccoli"]}
+  {vegan:["Courgette, butterbean and vegan feta fritter with spicy tomato chutney"],veg:["Spinach, butternut and ricotta pasta bake"],meat:[H("Crispy fish cake with caper and herb dressing")],sides:["Lemon and herb boiled new potatoes","Carrots, green beans and broccoli"]},
+  {vegan:["Wild mushroom and mixed bean lasagne"],veg:["Caramelised onion and brie frittata"],meat:["Beef lasagne"],sides:["Cheesy ciabatta garlic bread","Grilled corn on the cob"]},
+  {vegan:["Red pepper stuffed with quinoa, olives and sun-blushed tomatoes with a smoked pepper velouté"],veg:["Mushroom, spinach and brie pasty with cheese sauce"],meat:["Cider braised pork belly"],sides:["Garlic and thyme roasted potatoes","Roast root veg"]},
+  {vegan:["Carrot and onion bhaji with lentil dhal"],veg:["Sweet potato and paneer masala"],meat:["Beef madras"],sides:["Garlic naan, poppadom and mango chutney","Pilaf rice","Curried onions, corn and peas"]},
+  {vegan:["Tomato and mushroom gluten-free pasta with rocket"],veg:["Roasted courgette and goat's cheese tarte tatin"],meat:["Battered fish","Fish of the day"],sides:["Chips","Crushed peas","Lemon and tartare sauce"]}
  ],
  dinner:[
-  {vegan:["Stir-fried vegetables and veg spring rolls"],veg:["Thai egg curry"],meat:["Chicken dhansak"],sides:["Lentil and chickpea dhal","Ginger, chilli and garlic green beans and baby carrots"]}
+  {vegan:["Stir-fried vegetables and veg spring rolls"],veg:["Thai egg curry"],meat:["Chicken dhansak"],sides:["Lentil and chickpea dhal","Ginger, chilli and garlic green beans and baby carrots"]},
+  {vegan:["Falafel burger with mango chutney, grilled peppers and rocket"],veg:["Sweet potato fritter with grilled halloumi and chimichurri"],meat:[H("Grilled piri piri chicken leg with chimichurri")],sides:["Skinny fries","Peas and corn"]},
+  {vegan:["Roasted Mediterranean veg moussaka"],veg:["Garlic roasted courgette and spinach gnocchi"],meat:["Creamy chicken and spinach gnocchi"],sides:["Herby diced potatoes","Mixed veg"]},
+  {vegan:["Mushroom and chickpea goulash with rice"],veg:["Veggie burger with cheese, relish and pickles"],meat:["Beef burger with cheese, salad, relish and pickles"],sides:["Southern fried wedges","Garlic green beans"]},
+  {vegan:["Falafel with spinach and lentil curry"],veg:["Spicy Mediterranean veg pizza"],meat:["BBQ meat feast pizza"],sides:["Corn on the cob","Herby diced potatoes"]},
+  {vegan:["Spiced carrot and courgette burger with hummus and rocket"],veg:["Mushroom and courgette tagliatelle"],meat:["Lemon and herb grilled chicken burger with coleslaw"],sides:["Skinny fries","Green beans and broccoli"]},
+  {vegan:["Root veg and spinach Wellington with veggie gravy"],veg:["Roasted pepper and brie frittata"],meat:[H("Chicken chasseur")],sides:["Roasted new potatoes","Mixed veg"]}
  ]
 };
 function qns(meal,i){
   const d=QNS[meal][i];
-  if(!d) return (meal==="lunch"&&i===6)?BRUNCH:QNS_PART;
+  if(!d) return BRUNCH;
   return {vegan:d.vegan,veg:d.veg,meat:d.meat,sides:[{list:d.sides}]};
 }
 
