@@ -201,7 +201,7 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
     Sources
     <ul>
       <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_1_js_2.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 1 (PDF)</a></li>
-      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 26 October not loaded yet)</a></li>
+      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 26 October not up yet)</a></li>
       <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-1-lunch-menus-2026-14.pdf" target="_blank" rel="noopener">St Catharine's Week 1 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-1-dinner-menus-2026-15.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-1-menus-26.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
       <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
     </ul>
@@ -269,9 +269,9 @@ function pem(meal,i){
 }
 
 /* ---------- Queens' ---------- */
-/* w/c 26 October could not be loaded on this run: shown as a message for every day. */
+/* w/c 26 October not up yet (page still shows w/c 19 October): shown as a message for every day. */
 const H=n=>({n,halal:true});
-const QNS_MSG={msgHtml:'Not loaded yet. <a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Check Queens\' menu</a>'};
+const QNS_MSG={msgHtml:"This week's menu isn't up yet."};
 const QNS={lunch:[],dinner:[]};
 function qns(meal,i){
   if(!QNS.lunch.length&&!QNS.dinner.length) return QNS_MSG;
