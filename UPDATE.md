@@ -45,7 +45,9 @@ Format: `PEM_SIDES` (7 arrays), `PEM_L` (5 objects + `null,null`), `PEM_D` (7 ob
 ### St Catharine's (four-week rotation)
 Page: https://www.caths.cam.ac.uk/students/college-facilities-and-forms/catering-for-our-community/cafeteria
 Pick the week whose PDF header includes this Monday. Read its Lunch, Dinner and Weekend PDFs.
-Weekday text order: 3 dish+sides pairs = Friday; next 2 = Tuesday counters 2–3; next 3 = Thursday; after "MONDAY / WEDNESDAY": 3 Monday, 3 Wednesday, then 1 = Tuesday counter 1. Weekend PDF (dinner): first 3 = Saturday, next 3 = Sunday.
+Weekday text order: 3 dish+sides pairs = Friday; next 2 = Tuesday counters 2–3; next 3 = Thursday; after "MONDAY / WEDNESDAY": 3 Monday, 3 Wednesday, then 1 = Tuesday counter 1.
+Weekend PDF (dinner only): the layout varies. Use the SATURDAY/SUNDAY labels and give each day exactly 3 dishes. Seen so far: Week 1 = 2 dishes, "SATURDAY", 3 dishes, "Counter…", 1 dish, "SUNDAY" → Saturday = the 3 in the middle; Sunday = the lone last dish (counter 1) + the first 2 (counters 2–3). Week 2 = 6 dishes then labels → first 3 Saturday, next 3 Sunday.
+Fetching: St Catharine's PDF URLs may be refused ("not on allowlist") unless the user has sent them in the chat. If refused, show the not-loaded message and ask the user for the links in the report.
 Vegan only if the name says vegan or plant-based; otherwise meat-free → Vegetarian.
 Format: `CAT={lunch:[5 days],dinner:[7 days]}`, each day `[[dish,[sides],"veg|vegan|meat"],…]`.
 
