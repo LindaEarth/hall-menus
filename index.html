@@ -200,9 +200,9 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
   <div class="sources">
     Sources
     <ul>
-      <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_3_lc.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 3 (PDF)</a></li>
-      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 19 October)</a></li>
-      <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-4-lunch-menus-2026-20.pdf" target="_blank" rel="noopener">St Catharine's Week 4 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-4-dinner-menus-2026-21.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-4-menus-26-3-1.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
+      <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_1_js_2.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 1 (PDF)</a></li>
+      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 26 October not loaded yet)</a></li>
+      <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-1-lunch-menus-2026-14.pdf" target="_blank" rel="noopener">St Catharine's Week 1 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-1-dinner-menus-2026-15.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-1-menus-26.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
       <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
     </ul>
   </div>
@@ -210,7 +210,7 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 
 <script>
 /* WEEK_START: the Monday of the week this page shows (YYYY-MM-DD). Only this week is kept. */
-const WEEK_START="2026-10-19";
+const WEEK_START="2026-10-26";
 const DAYS=(()=>{const [y,m,d]=WEEK_START.split("-").map(Number);const out=[];
   for(let k=0;k<7;k++){const t=new Date(Date.UTC(y,m-1,d+k));
     out.push(t.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).replace(",",""));}
@@ -222,9 +222,9 @@ function todayIndex(){
   return k>=0&&k<7?k:0;
 }
 const COLLEGES=[
-  {id:"pem",name:"Pembroke",sub:"Servery · Week 3"},
+  {id:"pem",name:"Pembroke",sub:"Servery · Week 1"},
   {id:"qns",name:"Queens'",sub:"Dining Hall"},
-  {id:"cat",name:"St Catharine's",sub:"Cafeteria · Week 4"},
+  {id:"cat",name:"St Catharine's",sub:"Cafeteria · Week 1"},
   {id:"pet",name:"Peterhouse",sub:"Hall"}
 ];
 const ROWS=[
@@ -234,35 +234,33 @@ const ROWS=[
   {k:"sides",label:"Sides",cls:"r-other"}
 ];
 const BRUNCH={msgHtml:"Brunch dishes aren't listed on the menu."};
-const PEM_NOTE="Lunch/dinner split read from the menu layout; sides and pudding are listed for the whole day.";
-const CAT_NOTE="Days worked out from the PDF's order; confirm in the PDF.";
 
-/* ---------- Pembroke (Week 3) ---------- */
+/* ---------- Pembroke (Week 1) ---------- */
 const PEM_SIDES=[
- ["Chips","Mangetout","Vegetable medley","Rice","Sweet potato wedges"],
- ["Chips","Minted peas","Green beans","Chickpea braised rice","Roasted new potatoes"],
- ["Chips","Spiced cauliflower","Winter greens","Onion fried rice","Potato wedges"],
- ["Chips","Seasonal root veg","Corn on the cob","Crushed sweet potato","Roasted new potatoes"],
- ["Chips","Mushy peas / peas","Stir-fried broccoli","Crispy potato wedges","Braised onion rice"],
- ["Chips","Green beans and cherry tomatoes","Peas","Garlic mash potato","Steamed new potatoes"],
- ["Chips","Maple glazed carrots","Cabbage","Rice","Rosemary roast potatoes"]
+ ["Chips","Roasted root veg","Grilled peppers","Dill new potatoes","Coconut brown rice"],
+ ["Chips","Roasted squash","Savoy cabbage","Basmati rice","Mash potato"],
+ ["Chips","Peas and carrots","Roasted courgette","Steamed rice","Crushed new potatoes"],
+ ["Chips","Roasted parsnip","Sautéed pak choi","Parmentier potatoes","Rice"],
+ ["Chips","Mushy peas / turmeric roasted cauliflower","Vegetable panaché","Coriander rice","New potatoes"],
+ ["Chips","Green beans","Steamed broccoli","Rice","Crispy potatoes"],
+ ["Chips","Corn on the cob","Glazed carrots","Roast potatoes","Rice"]
 ];
 const PEM_L=[
- {vegan:["Roasted squash and chickpea casserole"],veg:["Paneer jalfrezi with poppadom"],meat:["Fish pie with Cheddar mash"]},
- {vegan:["Vegetable casserole topped with crispy mushrooms"],veg:["Broccoli, pea and Stilton pasta crumble bake"],meat:["Roasted chicken thighs with creamy lentils and pancetta"]},
- {vegan:["Aubergine caponata"],veg:["Spinach falafel burger with tzatziki and chilli jam"],meat:["Steamed haddock with creamed leeks and kale"]},
- {vegan:["Moroccan vegetable tagine"],veg:["Leek, potato, Cheddar and onion puff pastry open pie"],meat:["Beef strips, mushrooms and spinach with green peppercorn sauce"]},
- {vegan:["Wet polenta with roasted Mediterranean veg and onion chutney"],veg:["Four cheese pasta bake with parsley crumb"],meat:["Gluten-free battered fish"]},
+ {vegan:["Vegetable tagine"],veg:["Potato pancakes with guacamole, salsa and refried beans"],meat:["Katsu pork"]},
+ {vegan:["Bean chilli with nachos"],veg:["Blue cheese and courgette frittata"],meat:["Beef bolognese with penne pasta"]},
+ {vegan:["Sweet potato, spinach and butter bean stew"],veg:["Tempeh goujons with charred broccoli"],meat:["Crispy chicken burger with slaw"]},
+ {vegan:["Battered cauliflower with sweet chilli sauce"],veg:[],meat:["Brisket bagel with caramelised onions","Steak and hoisin sauce"]},
+ {vegan:["Lentil curry"],veg:["Mac and cheese"],meat:["Gluten-free battered fish"]},
  null,null
 ];
 const PEM_D=[
- {vegan:["Aubergine, butterbean and charred courgette katsu curry"],veg:["Halloumi fries with chilli jam and crispy rocket"],meat:["Chicken and vegetable fried rice"]},
- {vegan:["Vegan biryani"],veg:["BBQ pulled jackfruit with mixed bean salad and guacamole"],meat:["Chicken tikka masala with naan"]},
- {vegan:["Roasted squash with tabbouleh-style salsa and coconut yoghurt"],veg:["Crispy chilli and miso aubergine with egg noodles"],meat:["Chicken leg with green beans, cherry tomatoes and pesto"]},
- {vegan:["Squash and sage risotto with pumpkin seeds"],veg:["Potato pancakes with feta and guacamole","Five bean and mushroom bolognese with pasta"],meat:[]},
- {vegan:["Jacket potato with mixed bean chilli"],veg:["Roast pepper, basil and blue cheese frittata with tomato salsa"],meat:["Butter chicken"]},
- {vegan:["Lentil and Mediterranean veg ragu"],veg:["Gnocchi with mushrooms and leeks"],meat:["Baked coley with tomato and olive sauce"]},
- {vegan:["Vegan chilli nachos"],veg:["Vegetable curry"],meat:["Roast pork loin with apple sauce"]}
+ {vegan:["Falafel with warm quinoa salad and coconut yoghurt"],veg:["Mozzarella and sun-dried tomato stuffed mushroom"],meat:["Lemon and garlic chicken legs"]},
+ {vegan:["Wild rice and corn sauce stuffed tomato"],veg:["Broccoli, leek, pea and goat's cheese crumble","Onion and Cheddar quiche"],meat:[]},
+ {vegan:["Stir-fry with rice noodles"],veg:["Flatbread with grilled halloumi and Mediterranean vegetables"],meat:["Creamy fish chowder"]},
+ {vegan:["Vegetable fritters with salsa"],veg:["Peri-peri halloumi fries with crunchy salad"],meat:["Chicken quesadilla"]},
+ {vegan:["Teriyaki tofu, spring onion and nori rice bowl"],veg:["Spinach and feta pie"],meat:["Honey glazed chicken wings"]},
+ {vegan:["Lentil loaf with tomato sauce"],veg:["Mushroom stroganoff"],meat:["Chicken with bacon and tarragon sauce"]},
+ {vegan:["Celeriac steak with chimichurri"],veg:["Tomato and mozzarella pizza"],meat:["BBQ ribs"]}
 ];
 function pem(meal,i){
   const src=(meal==="lunch"?PEM_L:PEM_D)[i];
@@ -271,56 +269,39 @@ function pem(meal,i){
 }
 
 /* ---------- Queens' ---------- */
-/* w/c 19 October. each day: {vegan,veg,meat,sides}; meat entries may be {n,halal:true}. Saturday lunch is served in The QBar; Sunday lunch = brunch. */
+/* w/c 26 October could not be loaded on this run: shown as a message for every day. */
 const H=n=>({n,halal:true});
-const QNS={
- lunch:[
-  {vegan:["Spinach and butterbean lasagne"],veg:["Caramelised red onion and goat's cheese frittata"],meat:[H("Creamy chicken and spinach lasagne")],sides:["Roasted Mediterranean veg","Parmentier potatoes"]},
-  {vegan:["Thai butternut and courgette cake with red curry sauce"],veg:["Spicy pepper, hummus and halloumi wrap"],meat:[H("Thai salmon and sweet potato cake with red curry sauce")],sides:["Fragrant rice","Stir-fried veg"]},
-  {vegan:["Garlic roasted courgette and tomato gluten-free pasta"],veg:["Spinach, feta and potato frittata"],meat:["Roast turkey with gravy and cranberry sauce"],sides:["Potato gratin","Roast carrots and butternut squash"]},
-  {vegan:["Aubergine and chickpea goulash with rice"],veg:["Mushroom and spinach lasagne"],meat:[H("BBQ chicken leg")],sides:["Roasted sweet and new potatoes","Garlic roasted corn on the cob"]},
-  {vegan:["Tempura battered tofu, broccoli and baby corn with sweet chilli sauce"],veg:["Spinach and ricotta cannelloni"],meat:["Battered fish","Fish of the day"],sides:["Chips","Lemon and garlic peas","Lemon and tartare sauce"]},
-  {vegan:[],veg:["Veg and bean madras (in The QBar)"],meat:["Beef madras (in The QBar)"],sides:["Rice","Spiced peas and corn","Small selection of salad"]}
- ],
- dinner:[
-  {vegan:["Chickpea and squash bhuna"],veg:["Veg samosa with lentil curry"],meat:["Goan pork curry"],sides:["Pilaf rice","Poppadom and lime pickle"]},
-  {vegan:["Sweet potato curry with rice"],veg:["Spicy pepper gnocchi with mozzarella"],meat:["Chicken and chorizo gnocchi in spicy tomato sauce"],sides:["Herby diced potatoes","Mixed veg"]},
-  {vegan:["Falafel burger with hummus and rocket"],veg:["Creamy mushroom gluten-free pasta bake"],meat:[H("Buttermilk chicken burger with slaw")],sides:["Grilled corn","Southern fried wedges"]},
-  {vegan:["Veg and rice noodle chow mein"],veg:["Korean BBQ jackfruit wrap"],meat:[H("Sticky Thai BBQ chicken wings")],sides:["Stir-fried veg","Sticky rice"]},
-  {vegan:["Carrot burger with sweet chilli fried onions and rocket"],veg:["Caramelised red onion and goat's cheese frittata"],meat:["Beef burger with cheese, pickle and relish"],sides:["Skinny fries","Garlic green beans"]},
-  {vegan:["Butternut and chickpea tagine"],veg:["Ratatouille with a feta crumble"],meat:["Lamb tagine"],sides:["Couscous","Roasted Mediterranean veg"]},
-  {vegan:["Roasted root veg Wellington with onion gravy"],veg:["Tortellini formaggio"],meat:["Garlic and thyme roasted chicken breast with gravy"],sides:["New potatoes","Mixed veg"]}
- ]
-};
+const QNS_MSG={msgHtml:'Not loaded yet. <a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Check Queens\' menu</a>'};
+const QNS={lunch:[],dinner:[]};
 function qns(meal,i){
+  if(!QNS.lunch.length&&!QNS.dinner.length) return QNS_MSG;
   const d=QNS[meal][i];
   if(!d) return BRUNCH;
   return {vegan:d.vegan,veg:d.veg,meat:d.meat,sides:[{list:d.sides}]};
 }
 
-/* ---------- St Catharine's (Week 4) ---------- */
-/* each day: [dish, sides[], group] for counters 1–3 */
+/* ---------- St Catharine's (Week 1) ---------- */
+/* each day: [dish, sides[], group] for counters 1–3. Weekend dinner PDF could not be loaded on this run. */
 const CAT={
  lunch:[
-  [["Vegetable chow mein",["Sugar snap peas and mange tout","Pak choy with soy"],"veg"],["Loaded vegan taco",["Broccoli","Rice"],"vegan"],["Chargrilled chicken with chimichurri",["Roasted courgettes","Herb roasted parmentier potatoes"],"meat"]],
-  [["Spanokopita",["Broccoli","Lemon and rosemary roasted new potatoes"],"veg"],["Pasta with roasted vegetable caponata",["Garlic green beans","Garlic bread"],"veg"],["Pan fried sea bass with oriental vegetables, noodles and soy dressing",["Bok choy","Mange tout"],"meat"]],
-  [["Mediterranean frittata",["Roasted courgettes","Roasted baby corn"],"veg"],["Crispy buffalo cauliflower wings with sriracha sauce",["Sweetcorn","Seasoned wedges"],"veg"],["Baked sausages with onion gravy",["Steamed Savoy cabbage","Horseradish mash potatoes"],"meat"]],
-  [["Breaded bubble and squeak cake with creamed leeks",["Steamed carrots","Cauliflower"],"veg"],["Vegetable and coconut curry",["Steamed spinach","Rice"],"veg"],["Roast turkey with cranberry sauce and gravy",["Cauliflower cheese","Roast potatoes"],"meat"]],
-  [["Roasted beetroot, red onion and goat cheese pastry",["Steamed spinach","Oven baked Lyonnaise potatoes"],"veg"],["Vegetable stifado",["Broccoli","Mash potatoes"],"veg"],["Battered fish with tartar sauce and lemon",["Peas","Chips"],"meat"]]
+  [["Mushroom and spinach lasagne",["Garlic bread","Garlic curly kale"],"veg"],["Marinated tofu with tabbouleh and cumin oil",["Cumin roasted carrots","Steamed spinach"],"veg"],["Shredded chicken with pitta and tzatziki",["Greek salad","Lemon and oregano roast potatoes"],"meat"]],
+  [["Jackfruit biryani with coriander yoghurt",["Skin-on chips","Naked coleslaw"],"veg"],["Plant-based vegetable stir-fry",["Chinese greens with chilli oil","Special fried rice"],"vegan"],["Tandoori salmon with tomato and onion chaat salad",["Steamed green beans","Steamed rice"],"meat"]],
+  [["Cheese and onion pastry",["Sautéed Savoy cabbage with caraway","Roasted squash with seeds"],"veg"],["Grilled vegetable skewer",["Steamed rice","Pak choy"],"veg"],["Blackened turkey with peppers and onions",["Cajun baby corn","Chunky wedges"],"meat"]],
+  [["Roasted mushroom and red onion pasta bake with ricotta",["Garlic pizza bread","Caesar salad"],"veg"],["Creamy vegan butternut squash risotto",["Roasted cauliflower","Green beans"],"vegan"],["Honey roast gammon with grain mustard jus",["Cauliflower cheese","Dauphinoise potatoes"],"meat"]],
+  [["Aubergine with tomato, chickpea and basil chutney",["Steamed spinach","Roasted courgettes"],"veg"],["Vegan sausage and mash with onion gravy",["Steamed carrots","Mash potatoes"],"vegan"],["Battered fish with tartar sauce and lemon",["Peas","Chips"],"meat"]]
  ],
  dinner:[
-  [["Chicken katsu curry",["Rice","Onion bhaji"],"meat"],["Spinach and ricotta tortellini with tomato and olive sauce",["Roasted courgettes","Sweetcorn"],"veg"],["Sesame and ginger noodles with tofu",["Green beans","Pak choy"],"veg"]],
-  [["Southern fried chicken pieces",["Skin on chips","Coleslaw"],"meat"],["Tomato and cannellini bean stew",["Crushed new potatoes with olives","Steamed spinach"],"veg"],["Vegetable lasagna",["Caesar salad","Garlic bread"],"veg"]],
-  [["Ham and mushroom carbonara",["Green beans","Steamed Savoy cabbage"],"meat"],["Roasted vegetable and cheese pizza",["Seasoned wedges","Rocket and parmesan salad"],"veg"],["Caponata style tart",["Mash potatoes","Broccoli"],"veg"]],
-  [["BBQ ribs",["Chips","Onion rings"],"meat"],["Roasted vegetable and mozzarella pastry",["Herby diced potatoes","Roasted courgettes"],"veg"],["Charred fennel and courgette with lime pickle dressing",["Spiced sauté potatoes","Cumin roasted"],"veg"]],
-  [["Scampi with tartar sauce and lemon",["Chips","Mushy peas"],"meat"],["Cauliflower cheese pasty",["Roasted new potatoes with parsley","Steamed peas"],"veg"],["Roasted courgette, lemon and rosemary pasta",["Broccoli","Green beans"],"veg"]],
-  [["Cajun vegetable and cheese wrap",["Seasoned wedges","Baby corn"],"veg"],["Vegan Wellington",["Parmentier potatoes","Savoy cabbage"],"vegan"],["Grilled salmon with herb and caper butter",["New potatoes","Broccoli"],"meat"]],
-  [["Vegetable burger with salad and cheese",["Chips","Onion rings"],"veg"],["Vegan black bean enchiladas",["Seasoned wedges","Sweetcorn"],"vegan"],["Sweet and sour chicken",["Rice","Spinach"],"meat"]]
+  [["Roasted vegetable and cheese burrito",["Cajun roasted squash","Green beans"],"veg"],["Three bean chilli quesadilla",["Roasted sweetcorn","Sweet potato fries"],"veg"],["Spicy chicken fajitas with peppers and sour cream",["Seasoned wedges","Steamed baby corn"],"meat"]],
+  [["Vegetable burger with salad and blue cheese dressing",["Skin-on chips","Onion rings"],"veg"],["Sweet and sour Quorn with rice",["Steamed pak choy","Rice"],"veg"],["Chicken curry with naan and poppadoms",["Crushed peas with parsley","Steamed new potatoes"],"meat"]],
+  [["Naan pizza with roasted vegetable, pesto and mozzarella",["Rocket and parmesan salad","Roasted courgettes"],"veg"],["Gnocchi with sun-dried tomato pesto",["Steamed spinach","Roasted new potatoes"],"veg"],["Ham and cheese filled turkey escalope with mushroom sauce",["Steamed cauliflower","Herby diced potatoes"],"meat"]],
+  [["Aubergine parmigiana",["Roasted courgettes","Sauté potatoes"],"veg"],["Vegan macaroni cheese",["Sweetcorn and peppers","Roasted baby corn"],"vegan"],["Pork and vegetable stew with dumplings",["Broccoli","Steamed herby couscous"],"meat"]],
+  [["Vegetable chow mein",["Pak choy","Mange tout and sugar snaps"],"veg"],["Baked ratatouille with basil oil",["Roasted squash","Diced potatoes"],"veg"],["Scampi with lemon and tartar sauce",["Peas","Chips"],"meat"]]
  ]
 };
-const CAT_WKND_URL="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-4-menus-26-3-1.pdf";
+const CAT_WKND_URL="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-1-menus-26.pdf";
+const CAT_WKND_MSG={msgHtml:`Weekend menu not loaded yet. <a href="${CAT_WKND_URL}" target="_blank" rel="noopener">Check the weekend PDF</a>`};
 function cat(meal,i){
-  if(!CAT[meal][i]) return BRUNCH;
+  if(!CAT[meal][i]) return (meal==="dinner"&&i>4)?CAT_WKND_MSG:BRUNCH;
   const out={vegan:[],veg:[],meat:[],sides:[]};
   const seen=new Set(), sides=[];
   CAT[meal][i].forEach(([d,s,g])=>{ if(g==="vegan"&&!/vegan|plant-based/i.test(d)) g="veg"; out[g].push(d); s.forEach(x=>{ if(!seen.has(x.toLowerCase())){seen.add(x.toLowerCase());sides.push(x);} }); });
