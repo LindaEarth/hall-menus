@@ -201,7 +201,7 @@ ul.dishes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
     Sources
     <ul>
       <li><a href="https://www.pem.cam.ac.uk/sites/default/files/week_2_du.pdf" target="_blank" rel="noopener">Pembroke servery menu, Week 2 (PDF)</a></li>
-      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 2 November not loaded yet)</a></li>
+      <li><a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Queens' weekly menu (w/c 2 November)</a></li>
       <li><a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-2-lunch-menus-2026-16.pdf" target="_blank" rel="noopener">St Catharine's Week 2 lunch (PDF)</a>, <a href="https://www.caths.cam.ac.uk/sites/default/files/weekly-2-dinner-menus-2026-17.pdf" target="_blank" rel="noopener">dinner (PDF)</a> and <a href="https://www.caths.cam.ac.uk/sites/default/files/_weekend-dinner-2-menus-26-1.pdf" target="_blank" rel="noopener">weekend (PDF)</a></li>
       <li><a href="https://petmenu.co.uk/" target="_blank" rel="noopener">PETMENU, unofficial Peterhouse menu</a></li>
     </ul>
@@ -270,14 +270,30 @@ function pem(meal,i){
 
 
 /* ---------- Queens' ---------- */
-/* w/c 2 November could not be loaded on this run: shown as a message with a link for every day. */
+/* w/c 2 November. Monday not loaded yet; Tuesday–Sunday from the page. Weekend lunch = brunch. */
 const H=n=>({n,halal:true});
-const QNS_MSG={msgHtml:'Not loaded yet. <a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Check Queens\' menu</a>'};
-const QNS={lunch:[],dinner:[]};
+const QNS_PART={msgHtml:'Not loaded yet. <a href="https://www.queens.cam.ac.uk/life-at-queens/catering/dining-hall/weekly-menu/" target="_blank" rel="noopener">Check Queens\' menu</a>'};
+const QNS={
+ lunch:[
+  null,
+  {vegan:["Grilled flat mushroom topped with ratatouille and vegan Applewood cheese"],veg:["Creamy spinach and butterbean pasta bake"],meat:["Salmon pasta bake"],sides:["New potatoes","Broccoli and green beans"]},
+  {vegan:["Spinach, mushroom and lentil gluten-free lasagne"],veg:["Butternut and pumpkin seed mac 'n' cheese"],meat:["Roast chicken with gravy and stuffing balls"],sides:["Roast new potatoes","Cauliflower, leek and broccoli mornay"]},
+  {vegan:["Butternut and chickpea stew with rice"],veg:["Aubergine parmigiana"],meat:["Bacon loin steak with grilled pineapple"],sides:["Garlic naan, poppadom and mango chutney","New potatoes","Roasted peppers, courgettes and red onion"]},
+  {vegan:["Spicy bean and sweet potato fritter with chimichurri"],veg:["Spinach and feta spanakopita"],meat:["Battered fish","Fish of the day"],sides:["Chips","Mushy peas","Lemon and tartare sauce"]}
+ ],
+ dinner:[
+  null,
+  {vegan:["Roasted courgette and pumpkin seed risotto with rocket pesto"],veg:["Spinach and ricotta cannelloni"],meat:["Beef cannelloni"],sides:["Herby diced potatoes","Broccoli and cauliflower"]},
+  {vegan:["Spiced veg, tofu and guacamole burrito"],veg:["Sweet potato chilli taco with spicy Mexican cheese, guacamole and sour cream"],meat:[H("Chicken and black bean burrito")],sides:["Sweet potato fries","Chipotle grilled corn"]},
+  {vegan:["Stir-fried veg and tofu with rice noodles"],veg:["Veg Pukka pie"],meat:["Beef Pukka pie"],sides:["Herby diced potatoes","Mixed veg"]},
+  {vegan:["Veg samosa with lentil curry and rice"],veg:["Butternut and chickpea korma"],meat:["Chicken korma"],sides:["Rice and spiced peas","Garlic naan, poppadom and mango chutney"]},
+  {vegan:["BBQ fried pepper and onion tacos with guacamole"],veg:["Creamy spinach and mushroom pasta bake"],meat:["Bolognaise pasta bake"],sides:["Roasted Mediterranean veg","New potatoes"]},
+  {vegan:["Jumbo veg and bean sausage roll with onion gravy"],veg:["Spinach and mascarpone risotto"],meat:[H("Jumbo sausage roll with onion gravy")],sides:["Herby diced potatoes","Mixed veg"]}
+ ]
+};
 function qns(meal,i){
-  if(!QNS.lunch.length&&!QNS.dinner.length) return QNS_MSG;
   const d=QNS[meal][i];
-  if(!d) return BRUNCH;
+  if(!d) return (meal==="lunch"&&i>4)?BRUNCH:QNS_PART;
   return {vegan:d.vegan,veg:d.veg,meat:d.meat,sides:[{list:d.sides}]};
 }
 
